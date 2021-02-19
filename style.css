@@ -1,0 +1,151 @@
+/* root selector (":" means selector) means global, allows us to create global variables for the style sheet
+used variables from https://www.youtube.com/watch?v=moBhzSC455o*/
+:root{
+    --primary: rgb(97, 97, 97);
+    --dark:rgb(221, 221, 221);
+    --light:rgb(124, 2, 2);
+    --shadow: inset 2px 2px 2px 3px rgba(177, 177, 177, 0.8),inset -3px -3px 2px 3px rgba(31, 31, 31, 0.8);
+    
+}
+
+h1{
+    text-align: center;
+    font-size: 6rem;
+    font-weight: bold;
+    margin: 0px;
+}
+
+.final-score{
+    text-align: center;
+}
+
+p{
+    text-align: center;
+    margin: 0px;
+}
+
+html{
+    box-sizing:border-box; /*padding and borders are included in width and height calculations*/
+    font-family: Arial, Helvetica, sans-serif;
+    color: var(--dark);
+}
+
+body{
+    background-color: rgb(37, 37, 37);
+    margin: 30px 50px;/* Not restricting the wrapper container so this gives the page a small space 30T/B - 50L/R */
+    line-height: 1.6; /* space between newlines 1.6 is the recommended amount */
+}
+
+.wrapper {
+    display: grid;
+    grid-gap: 30px;
+
+}
+.rules {
+    margin: 2rem 0 -3rem 0;
+}
+
+
+
+.mid-container{
+    display: grid;
+    grid-gap: 30px;
+    grid-template-columns: repeat(5, 1fr);
+    grid-template-areas: 
+    "blank title title title blank1"
+    "blank rules rules rules blank1"
+    "blank midbox-a midbox-b midbox-c blank1"
+    "blank midbox-a midbox-b midbox-c blank1";
+}
+
+
+.midbox{
+    font-size: 3rem;
+    font-weight: bold;
+    background: var(--primary);
+    box-shadow: var(--shadow);
+    cursor: pointer;
+
+    transition: all .5s ease;
+
+    display:grid;
+    align-items: center;
+    justify-content: center;
+    padding-top: 4rem;
+    padding-bottom: 4rem;
+    border-radius: 1rem;
+}
+
+.bottom-container{
+    justify-content: center;
+    display: grid;
+    grid-gap: 30px;
+    grid-template-columns: 1fr 1.5fr 1.5fr 1fr;
+    grid-template-areas: 
+    "blank2 bottombox-a bottombox-b blank3";
+}
+
+.score{
+    text-align: center;
+    align-content: center;
+}
+
+.bottombox{
+    font-size: 3rem;
+    font-weight: bold;
+    background: var(--primary);
+    box-shadow: var(--shadow);
+    display: grid;
+    justify-content: center;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+    border-radius: 1rem;
+}
+
+.bottombox-a{
+    box-shadow: inset 0px 0px 10px 1px rgb(0, 4, 255);
+}
+
+.bottombox-b{
+    box-shadow: inset 0px 0px 10px 1px rgb(238, 255, 0);
+}
+
+.userPlaying {
+    transform: scale(1.1);
+    box-shadow: inset 0px 0px 10px 5px rgb(0, 4, 255);
+  }
+
+.cpuPlaying {
+    transform: scale(1.1);
+    box-shadow: inset 0px 0px 10px 5px rgb(238, 255, 0);
+  }
+
+.bothPlaying {
+    transform: scale(1.1);
+    box-shadow: inset 0px 0px 10px 5px rgb(21, 255, 0);
+  }
+
+.blank{
+    grid-area:blank;
+}
+
+.blank1{
+    grid-area:blank1;
+}
+.blank2{
+    grid-area:blank2;
+}
+
+.blank3{
+    grid-area:blank3;
+}
+
+.midbox-a{
+    grid-area: midbox-a;
+}
+.midbox-b{
+    grid-area: midbox-b;
+}
+.midbox-c{
+    grid-area: midbox-c;
+}

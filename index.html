@@ -3,94 +3,171 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
     <title>Document</title>
+    <script src="https://kit.fontawesome.com/23fcc5f98a.js" crossorigin="anonymous"></script>
 </head>
 <body>
+    <div class="wrapper">
+        <div class="rules">
+            <h1>
+                Rock Paper Scissors
+            </h1>
+            <p>First to 5 wins</p>
+        </div>
+
+        <section class="mid-container">
+            <div class="blank">&nbsp;</div>
+            <div class="button midbox midbox-a" id="Rock">
+                <i class="far fa-hand-rock fa-3x"></i>
+            </div>
+            <div class="button midbox midbox-b" id="Paper">
+                <i class="far fa-hand-paper fa-3x"></i>
+            </div>
+            <div class="button midbox midbox-c" id="Scissors">
+                <i class="far fa-hand-scissors fa-3x"></i>
+            </div>
+            <div class="blank1">&nbsp;</div>
+        </section>
+
+        <section class="bottom-container">
+            <div class="blank2">&nbsp;</div>
+            <div class="bottombox bottombox-a">
+                <p>Player Score</p>
+                <div class="score" id="playerScore">
+                    
+                </div>                
+            </div>
+
+            <div class="bottombox bottombox-b">
+                <p>Computer Score</p>
+                <div class="score" id="compScore">
+                    
+                </div>
+                
+            </div>
+
+            <div class="blank3">&nbsp;</div>
+        </section>
+    </div>
     
 </body>
 </html>
 <script>
 
+    let playerScore = 0;
+    let compScore = 0;
+    let bothPlayingString = "bothPlaying";
+    let userPlayingString = "userPlaying";
+    let cpuPlayingString = "cpuPlaying";
+    const playerDiv = document.querySelector('#playerScore');
+    const cpuDiv = document.querySelector('#compScore')
+    playerDiv.textContent = playerScore;
+    cpuDiv.textContent = compScore;
+    
 
-    console.log(game());
+
+    function resetGame(){
+        compScore = 0;
+        playerScore = 0;
+        playerDiv.textContent = playerScore;
+        cpuDiv.textContent = compScore;
+
+    }
+
 
     function computerSelection()
     {
         //randomly choose an int between 0-2 to select rock paper or scissors
         let intRockPaperScissors = (Math.floor(Math.random() * 3)); // math floor returns an int <= to the given number. math random returns a random float between 0-1
-        let arrayRockPaperScissors = [`Rock`,`Paper`,`Scissors`];
+        let arrayRockPaperScissors = [`Rock`,`Paper`,`Scissors`];        
         return(arrayRockPaperScissors[intRockPaperScissors]); //using the random int, select the index of the array and return
     }
 
-    function playerSelection()
+    function animator(buttonID, whosPlaying)
     {
-        let userSelect = prompt("Rock, Paper or Scissors");
-        userSelect = userSelect.toLowerCase();
-        userSelect = userSelect[0].toUpperCase() + userSelect.slice(1);
-        return userSelect;
+       let element = document.getElementById(buttonID);
+       element.classList.add(whosPlaying);
     }
 
-    function playRound(comp,user)
+    function animator2(user, usa, compSelection, cpa)
     {
+        let userElement = document.getElementById(user);
+        userElement.classList.add(usa);
+        
+        let cpuElement = document.getElementById(compSelection);
+        cpuElement.classList.add(cpa);
+
+    }
+
+
+
+    function playRound(comp,user)
+    {        
+        
         if (comp.toLowerCase() == user.toLowerCase())
         {
-            return (`Tie game, ${comp} ties ${user}`);
+            return('tie');
         }
 
         if ((comp === "Rock" && user === "Scissors") ||
          (comp === "Scissors" && user === "Paper") ||
          (comp === "Paper" && user === "Rock"))
          {
-             return(`You Lose, ${comp} beats ${user}`);
+             compScore++;
+             cpuDiv.textContent = compScore;
+             if (compScore == 5)
+             {
+                 alert("cpu wins");
+                 resetGame();
+             }
          }
         else
         {
-            return(`You Win, ${user} beats ${comp}`);
+            playerScore++;
+            playerDiv.textContent = playerScore;
+            if (playerScore == 5)
+            {
+                alert("you win!")
+                resetGame();
+            }
         }
     }
+// this function is from Wes Bos’s JavaScript30 first excercise
+    function removeTransition(e) {
+    if (e.propertyName !== 'transform') return;
+    e.target.classList.remove('cpuPlaying');
+    e.target.classList.remove('userPlaying');
+    e.target.classList.remove('bothPlaying');
+  }
 
-    function game()
-    {
-        let ties = 0;
-        let wins = 0;
-        let losses = 0;
-        let rounds = 0;
+    const butt = Array.from(document.querySelectorAll('.button'));
+    butt.forEach(butt => butt.addEventListener('transitionend', removeTransition));
 
-        
-
-        for(let i = 0; i <= 4; i++)
-        {
-            let comp = computerSelection();
-            let user = playerSelection();
-            let roundWinner = playRound(comp,user);
-            if (roundWinner.search("Win") != -1)
+    const buttons = document.querySelectorAll('.button');
+    buttons.forEach( (button) => {
+        button.addEventListener('click', () => {
+            let user = button.id;
+            let compSelection = computerSelection();
+            if (user == compSelection)
             {
-                wins +=  1;
-                    
+                animator(compSelection, bothPlayingString);
+
             }
-            else if (roundWinner.search("Lose") != -1)
+            else
             {
-                losses += 1;
+                animator2(user, userPlayingString,compSelection, cpuPlayingString);
+                //animator(compSelection, cpa);
             }
-            else{
-                ties += 1;
-                i--;
-                rounds--;
-                
-            }
-            rounds += 1;
-            console.log(roundWinner + `. Round ${rounds}`)
-        }
 
-        if (wins > losses){
-            return (`Player Wins ${wins} times`)
-        }
-        else{
-            return (`Computer Wins ${losses} times`)
-        }
+            let roundWinner = playRound(compSelection, user);
+            
 
+        });
+    });
 
+    
+    
 
-    }
 
 </script>
